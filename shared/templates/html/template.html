@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="$if(lang)$$lang$$else$or$endif$">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="pandoc">
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+$for(css)$
+  <link rel="stylesheet" href="$css$">
+$endfor$
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+<body>
+  <div class="book-layout">
+$if(toc)$
+    <aside class="book-sidebar no-print">
+      <div class="book-sidebar-header">
+        <div class="book-title-or">$title_or$</div>
+        $if(title_en)$<div class="book-title-en">$title_en$</div>$endif$
+      </div>
+      <nav class="book-sidebar-nav">
+        <div class="toc-heading">ସୂଚୀପତ୍ର (Contents)</div>
+        $toc$
+      </nav>
+    </aside>
+$endif$
+
+    <div class="book-content-wrapper">
+      <main class="book-container">
+        <header class="book-hero">
+          <span class="badge">Odia Language Book</span>
+          <h1>$if(title_or)$$title_or$$else$$title$$endif$</h1>
+          $if(title_en)$<div class="subtitle">$title_en$$if(subtitle)$ — $subtitle$$endif$</div>$endif$
+          <div class="meta">
+            $if(author)$<span><strong>Author / ଲେଖକ:</strong> $author$</span>$endif$
+            $if(version)$<span><strong>Version / ସଂସ୍କରଣ:</strong> v$version$</span>$endif$
+            $if(date)$<span><strong>Published:</strong> $date$</span>$endif$
+          </div>
+        </header>
+
+        <article class="book-body">
+$body$
+        </article>
+
+        <footer class="book-footer no-print">
+          <p>ଓଡ଼ିଆ ଭାଷା ଶିକ୍ଷା ପୁସ୍ତକ ମାଳା | Open Source Odia Language Introduction Project</p>
+          <p>Built with Pandoc &bull; Licensed under Creative Commons / MIT</p>
+        </footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

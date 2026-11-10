@@ -1,0 +1,22 @@
+% ==============================================================================
+% Odia Language Book XeLaTeX Preamble
+% Configured for complex Indic script rendering and book styling
+% ==============================================================================
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+% Spacing & paragraph flow
+\usepackage{setspace}
+\onehalfspacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt plus 2pt minus 1pt}
+
+% Headers and Footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{gray}\leftmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}

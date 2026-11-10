@@ -1,0 +1,52 @@
+name: Build and Verify Odia Books
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Pandoc and LaTeX with Indic Fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pandoc \
+            texlive-xetex \
+            texlive-fonts-recommended \
+            fonts-noto-extra \
+            fonts-noto-ui-core \
+            fonts-lohit-orya
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+          enable-cache: true
+
+      - name: Set up Python 3.14
+        run: |
+          uv python install 3.14
+          uv sync --extra dev
+
+      - name: Run automated test suite
+        run: |
+          uv run pytest -v
+
+      - name: Build all books
+        run: |
+          make all
+
+      - name: Upload Book Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: odia-language-books
+          path: dist/

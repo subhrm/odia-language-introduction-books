@@ -147,3 +147,20 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Python & uv
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Book Build outputs
+dist/
+*.aux
+*.out
+*.log
+*.toc
+*.fls
+*.fdb_latexmk
+

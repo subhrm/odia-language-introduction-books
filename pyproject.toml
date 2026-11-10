@@ -1,0 +1,20 @@
+[project]
+name = "odia-language-introduction-books"
+version = "0.1.0"
+description = "Publishing pipeline and source for open-source Odia language books"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pyyaml>=6.0.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+pythonpath = ["."]
+
