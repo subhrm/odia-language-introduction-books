@@ -20,6 +20,7 @@ from scripts.build import (
     build_html,
     build_pdf,
     clean,
+    get_best_odia_font,
 )
 
 
@@ -85,6 +86,14 @@ def test_build_starter_book_pdf():
 
     assert pdf_out.exists(), "PDF output must exist"
     assert pdf_out.stat().st_size > 20000, "PDF output should be larger than 20KB"
+
+
+def test_font_selection():
+    """Verify font detection and fallback mechanism."""
+    font = get_best_odia_font()
+    assert isinstance(font, str) and len(font) > 0
+    # Custom font preference is honored
+    assert get_best_odia_font("CustomPreferredFont") == "CustomPreferredFont"
 
 
 def test_clean_command():

@@ -67,7 +67,7 @@ To build both HTML and PDF formats locally:
    # macOS
    brew install --cask mactex-no-gui
    # Linux (Ubuntu/Debian)
-   sudo apt-get install texlive-xetex fonts-noto-extra
+   sudo apt-get install texlive-xetex texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-math-extra texlive-plain-generic lmodern fonts-noto-extra fonts-noto-ui-core fonts-lohit-orya
    ```
 3. **Python 3.14 & uv**:
    ```bash

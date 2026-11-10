@@ -33,6 +33,41 @@ def check_tool_installed(name: str) -> bool:
     return shutil.which(name) is not None
 
 
+def get_best_odia_font(preferred_font: str | None = None) -> str:
+    """Find the best available font supporting Odia script.
+
+    If an explicit preferred_font is provided, it is honored.
+    Otherwise, discovers the best installed Odia font via fontconfig,
+    defaulting to 'Baloo Bhaina 2'.
+    """
+    if preferred_font:
+        return preferred_font
+
+    candidates = [
+        "Baloo Bhaina 2",
+        "Noto Sans Oriya",
+        "Noto Serif Oriya",
+        "Lohit Odia",
+        "Lohit Oriya",
+    ]
+
+    if check_tool_installed("fc-list"):
+        try:
+            res = subprocess.run(["fc-list", ":", "family"], capture_output=True, text=True)
+            installed_families = {
+                item.strip().lower()
+                for line in res.stdout.splitlines()
+                for item in line.split(",")
+            }
+            for candidate in candidates:
+                if candidate.lower() in installed_families:
+                    return candidate
+        except Exception:
+            pass
+
+    return "Baloo Bhaina 2"
+
+
 def find_books(requested_book: str | None = None) -> List[Path]:
     """Discover books to build."""
     if not BOOKS_DIR.exists():
@@ -153,6 +188,7 @@ def build_pdf(book_dir: Path, config: Dict[str, Any], chapter_paths: List[Path])
     out_file = out_dir / f"{slug}.pdf"
 
     preamble_file = SHARED_DIR / "templates" / "latex" / "preamble.tex"
+    mainfont = get_best_odia_font(config.get("mainfont"))
 
     cmd = [
         "pandoc",
@@ -163,7 +199,7 @@ def build_pdf(book_dir: Path, config: Dict[str, Any], chapter_paths: List[Path])
         "--toc",
         "--toc-depth=2",
         "-V",
-        "mainfont=Baloo Bhaina 2",
+        f"mainfont={mainfont}",
         "-V",
         "mainfontoptions=Script=Oriya",
         "-V",
@@ -216,7 +252,8 @@ def build_book(book_yaml_path: Path, target_format: str = "all") -> Dict[str, Pa
     # Build PDF
     if build_all or target_format.lower() == "pdf":
         t0 = time.time()
-        print("  --> Generating PDF edition (XeLaTeX)...")
+        mainfont = get_best_odia_font(config.get("mainfont"))
+        print(f"  --> Generating PDF edition (XeLaTeX, font: {mainfont})...")
         pdf_out = build_pdf(book_dir, config, chapter_paths)
         size_kb = pdf_out.stat().st_size / 1024
         print(f"  ✓ PDF generated:  {pdf_out.relative_to(PROJECT_ROOT)} ({size_kb:.1f} KB in {time.time()-t0:.2f}s)")
@@ -261,6 +298,14 @@ def check_env() -> bool:
             print(f"  [✗] {label:10} : {status}")
             if required:
                 all_ok = False
+
+    if check_tool_installed("fc-list"):
+        font = get_best_odia_font()
+        has_primary = font == "Baloo Bhaina 2"
+        glyph_info = "primary" if has_primary else "fallback"
+        print(f"  [{'✓' if has_primary else '!'}] {'Odia Font':10} : Found ('{font}', {glyph_info})")
+    elif check_tool_installed("xelatex"):
+        print(f"  [?] {'Odia Font':10} : fc-list not available to check fonts (will default to Baloo Bhaina 2)")
 
     return all_ok
 
