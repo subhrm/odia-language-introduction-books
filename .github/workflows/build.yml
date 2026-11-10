@@ -26,12 +26,10 @@ jobs:
             texlive-fonts-recommended \
             texlive-plain-generic \
             lmodern \
+            fonts-noto-core \
             fonts-noto-extra \
             fonts-noto-ui-core \
             fonts-lohit-orya
-          sudo mkdir -p /usr/local/share/fonts/truetype/baloo
-          sudo curl -fLo /usr/local/share/fonts/truetype/baloo/BalooBhaina2.ttf --retry 3 --retry-delay 2 \
-            "https://raw.githubusercontent.com/google/fonts/main/ofl/baloobhaina2/BalooBhaina2%5Bwght%5D.ttf"
           sudo fc-cache -f -v
 
       - name: Set up uv

@@ -20,3 +20,13 @@
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
+
+% Unicode symbol mappings for arrow and bullet
+\catcode`\•=\active
+\def•{\ensuremath{\bullet}}
+\catcode`\→=\active
+\def→{\ensuremath{\rightarrow}}
+
+% Start each chapter (top-level section) on a new page
+\AddToHook{cmd/section/before}{\clearpage}
+

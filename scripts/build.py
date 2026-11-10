@@ -40,13 +40,12 @@ def get_best_odia_font(preferred_font: str | None = None) -> str:
 
     If an explicit preferred_font is provided, it is honored.
     Otherwise, discovers the best installed Odia font via fontconfig,
-    defaulting to 'Baloo Bhaina 2'.
+    defaulting to 'Noto Sans Oriya'.
     """
     if preferred_font:
         return preferred_font
 
     candidates = [
-        "Baloo Bhaina 2",
         "Noto Sans Oriya",
         "Noto Serif Oriya",
         "Lohit Odia",
@@ -69,7 +68,7 @@ def get_best_odia_font(preferred_font: str | None = None) -> str:
         except Exception:
             pass
 
-    return "Baloo Bhaina 2"
+    return "Noto Sans Oriya"
 
 
 def find_books(requested_book: str | None = None) -> list[Path]:
@@ -318,14 +317,14 @@ def check_env() -> bool:
 
     if check_tool_installed("fc-list"):
         font = get_best_odia_font()
-        has_primary = font == "Baloo Bhaina 2"
+        has_primary = font == "Noto Sans Oriya"
         glyph_info = "primary" if has_primary else "fallback"
         print(
             f"  [{'✓' if has_primary else '!'}] {'Odia Font':10} : Found ('{font}', {glyph_info})"
         )
     elif check_tool_installed("xelatex"):
         print(
-            f"  [?] {'Odia Font':10} : fc-list not available to check fonts (will default to Baloo Bhaina 2)"
+            f"  [?] {'Odia Font':10} : fc-list not available to check fonts (will default to Noto Sans Oriya)"
         )
 
     return all_ok

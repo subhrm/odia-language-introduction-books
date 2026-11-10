@@ -32,7 +32,7 @@ odia-language-introduction-books/
 │       ├── html/
 │       │   └── template.html            # Standalone HTML5 template (TOC, sidebar)
 │       └── latex/
-│           └── preamble.tex             # XeLaTeX preamble (Baloo Bhaina 2, spacing)
+│           └── preamble.tex             # XeLaTeX preamble (Noto Sans Oriya, spacing)
 ├── scripts/
 │   └── build.py                         # Universal Python build engine
 ├── tests/
@@ -55,7 +55,7 @@ odia-language-introduction-books/
   - Run commands in virtual environment: `uv run <command>`
 - **Pandoc**: `>= 3.0` (required for markdown parsing and conversion).
 - **XeLaTeX**: (MacTeX / TeX Live) required for PDF rendering of Indic scripts.
-- **Font**: `Baloo Bhaina 2` is the primary font for XeLaTeX PDF generation because it contains complete glyph sets for both Odia and Latin/English alphabets, preventing missing-glyph warnings during XeLaTeX compilation.
+- **Font**: `Noto Sans Oriya` is the primary font for XeLaTeX PDF generation.
 
 ---
 
@@ -145,5 +145,5 @@ Before submitting changes or completing tasks:
 2. Run `make test` and confirm all tests pass (`pytest`).
 3. Run `make all` to ensure both HTML and PDF compile without warnings or fatal errors.
 4. If modifying LaTeX or CSS templates, verify that:
-   - HTML remains responsive and correctly imports Google Fonts (`Baloo Bhaina 2`).
+   - HTML remains responsive and correctly imports Google Fonts (`Noto Sans Oriya`).
    - PDF renders complex Indic ligatures and Latin text without missing glyph warnings.

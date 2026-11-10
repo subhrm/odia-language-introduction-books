@@ -77,7 +77,7 @@ To build both HTML and PDF formats locally:
    uv sync --extra dev
    ```
 4. **Odia Font**:
-   The PDF build uses **Baloo Bhaina 2** (installed natively on macOS and available on Google Fonts), which supports both Odia script and Latin alphabet seamlessly.
+   The PDF build uses **Noto Sans Oriya** (installed natively on macOS and available on Google Fonts).
 
 ---
 
