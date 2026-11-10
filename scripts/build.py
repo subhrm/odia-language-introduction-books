@@ -7,18 +7,20 @@ Builds book source files into HTML and PDF distributions.
 from __future__ import annotations
 
 import argparse
-import os
 import shutil
 import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 try:
     import yaml
 except ImportError:
-    print("Error: pyyaml is not installed. Run 'uv sync' or 'pip install pyyaml'.", file=sys.stderr)
+    print(
+        "Error: pyyaml is not installed. Run 'uv sync' or 'pip install pyyaml'.",
+        file=sys.stderr,
+    )
     sys.exit(1)
 
 
@@ -53,7 +55,9 @@ def get_best_odia_font(preferred_font: str | None = None) -> str:
 
     if check_tool_installed("fc-list"):
         try:
-            res = subprocess.run(["fc-list", ":", "family"], capture_output=True, text=True)
+            res = subprocess.run(
+                ["fc-list", ":", "family"], capture_output=True, text=True
+            )
             installed_families = {
                 item.strip().lower()
                 for line in res.stdout.splitlines()
@@ -68,7 +72,7 @@ def get_best_odia_font(preferred_font: str | None = None) -> str:
     return "Baloo Bhaina 2"
 
 
-def find_books(requested_book: str | None = None) -> List[Path]:
+def find_books(requested_book: str | None = None) -> list[Path]:
     """Discover books to build."""
     if not BOOKS_DIR.exists():
         print(f"Error: Books directory not found at {BOOKS_DIR}", file=sys.stderr)
@@ -78,14 +82,17 @@ def find_books(requested_book: str | None = None) -> List[Path]:
     if requested_book:
         matched = [p for p in book_yaml_files if p.parent.name == requested_book]
         if not matched:
-            print(f"Error: Book '{requested_book}' not found in {BOOKS_DIR}", file=sys.stderr)
+            print(
+                f"Error: Book '{requested_book}' not found in {BOOKS_DIR}",
+                file=sys.stderr,
+            )
             return []
         return matched
 
     return sorted(book_yaml_files, key=lambda p: p.parent.name)
 
 
-def load_book_config(book_yaml_path: Path) -> Dict[str, Any]:
+def load_book_config(book_yaml_path: Path) -> dict[str, Any]:
     """Parse book.yaml configuration."""
     with open(book_yaml_path, "r", encoding="utf-8") as f:
         config = yaml.safe_load(f) or {}
@@ -101,7 +108,7 @@ def load_book_config(book_yaml_path: Path) -> Dict[str, Any]:
     return config
 
 
-def get_chapter_paths(book_dir: Path, config: Dict[str, Any]) -> List[Path]:
+def get_chapter_paths(book_dir: Path, config: dict[str, Any]) -> list[Path]:
     """Resolve ordered chapter markdown paths."""
     chapters_dir = book_dir / "chapters"
     if not chapters_dir.exists():
@@ -116,12 +123,16 @@ def get_chapter_paths(book_dir: Path, config: Dict[str, Any]) -> List[Path]:
     for chapter_name in chapter_files:
         chapter_path = chapters_dir / chapter_name
         if not chapter_path.exists():
-            raise FileNotFoundError(f"Chapter file declared in book.yaml not found: {chapter_path}")
+            raise FileNotFoundError(
+                f"Chapter file declared in book.yaml not found: {chapter_path}"
+            )
         resolved.append(chapter_path)
     return resolved
 
 
-def build_html(book_dir: Path, config: Dict[str, Any], chapter_paths: List[Path]) -> Path:
+def build_html(
+    book_dir: Path, config: dict[str, Any], chapter_paths: list[Path]
+) -> Path:
     """Compile book to HTML using Pandoc."""
     slug = config["slug"]
     out_dir = DIST_DIR / slug / "html"
@@ -174,7 +185,9 @@ def build_html(book_dir: Path, config: Dict[str, Any], chapter_paths: List[Path]
     return out_file
 
 
-def build_pdf(book_dir: Path, config: Dict[str, Any], chapter_paths: List[Path]) -> Path:
+def build_pdf(
+    book_dir: Path, config: dict[str, Any], chapter_paths: list[Path]
+) -> Path:
     """Compile book to PDF using Pandoc with XeLaTeX."""
     if not check_tool_installed("xelatex"):
         raise RuntimeError(
@@ -226,7 +239,7 @@ def build_pdf(book_dir: Path, config: Dict[str, Any], chapter_paths: List[Path])
     return out_file
 
 
-def build_book(book_yaml_path: Path, target_format: str = "all") -> Dict[str, Path]:
+def build_book(book_yaml_path: Path, target_format: str = "all") -> dict[str, Path]:
     """Build a single book in requested formats."""
     book_dir = book_yaml_path.parent
     config = load_book_config(book_yaml_path)
@@ -246,7 +259,9 @@ def build_book(book_yaml_path: Path, target_format: str = "all") -> Dict[str, Pa
         print("  --> Generating HTML edition...")
         html_out = build_html(book_dir, config, chapter_paths)
         size_kb = html_out.stat().st_size / 1024
-        print(f"  ✓ HTML generated: {html_out.relative_to(PROJECT_ROOT)} ({size_kb:.1f} KB in {time.time()-t0:.2f}s)")
+        print(
+            f"  ✓ HTML generated: {html_out.relative_to(PROJECT_ROOT)} ({size_kb:.1f} KB in {time.time() - t0:.2f}s)"
+        )
         outputs["html"] = html_out
 
     # Build PDF
@@ -256,7 +271,9 @@ def build_book(book_yaml_path: Path, target_format: str = "all") -> Dict[str, Pa
         print(f"  --> Generating PDF edition (XeLaTeX, font: {mainfont})...")
         pdf_out = build_pdf(book_dir, config, chapter_paths)
         size_kb = pdf_out.stat().st_size / 1024
-        print(f"  ✓ PDF generated:  {pdf_out.relative_to(PROJECT_ROOT)} ({size_kb:.1f} KB in {time.time()-t0:.2f}s)")
+        print(
+            f"  ✓ PDF generated:  {pdf_out.relative_to(PROJECT_ROOT)} ({size_kb:.1f} KB in {time.time() - t0:.2f}s)"
+        )
         outputs["pdf"] = pdf_out
 
     return outputs
@@ -303,16 +320,24 @@ def check_env() -> bool:
         font = get_best_odia_font()
         has_primary = font == "Baloo Bhaina 2"
         glyph_info = "primary" if has_primary else "fallback"
-        print(f"  [{'✓' if has_primary else '!'}] {'Odia Font':10} : Found ('{font}', {glyph_info})")
+        print(
+            f"  [{'✓' if has_primary else '!'}] {'Odia Font':10} : Found ('{font}', {glyph_info})"
+        )
     elif check_tool_installed("xelatex"):
-        print(f"  [?] {'Odia Font':10} : fc-list not available to check fonts (will default to Baloo Bhaina 2)")
+        print(
+            f"  [?] {'Odia Font':10} : fc-list not available to check fonts (will default to Baloo Bhaina 2)"
+        )
 
     return all_ok
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Odia Language Books Publisher")
-    parser.add_argument("--book", "-b", help="Specific book slug to build (e.g. odia-words-and-sentences)")
+    parser.add_argument(
+        "--book",
+        "-b",
+        help="Specific book slug to build (e.g. odia-words-and-sentences)",
+    )
     parser.add_argument(
         "--format",
         "-f",
@@ -320,8 +345,12 @@ def main() -> None:
         default="all",
         help="Target output format (default: all)",
     )
-    parser.add_argument("--clean", action="store_true", help="Clean dist/ build output directory")
-    parser.add_argument("--check", action="store_true", help="Verify environment prerequisites")
+    parser.add_argument(
+        "--clean", action="store_true", help="Clean dist/ build output directory"
+    )
+    parser.add_argument(
+        "--check", action="store_true", help="Verify environment prerequisites"
+    )
     args = parser.parse_args()
 
     if args.clean:
@@ -351,7 +380,9 @@ def main() -> None:
             print(f"\n❌ Error building book at {book_yaml}:\n{e}", file=sys.stderr)
             sys.exit(1)
 
-    print(f"\n✨ All done! Successfully built {built_count} book(s) in {time.time()-overall_start:.2f}s.")
+    print(
+        f"\n✨ All done! Successfully built {built_count} book(s) in {time.time() - overall_start:.2f}s."
+    )
 
 
 if __name__ == "__main__":

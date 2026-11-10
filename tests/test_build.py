@@ -45,7 +45,9 @@ def test_book_yaml_schema():
             data = yaml.safe_load(f)
 
         assert "title_or" in data or "title" in data, f"Missing title in {book_yaml}"
-        assert "chapters" in data and isinstance(data["chapters"], list), f"Missing chapters list in {book_yaml}"
+        assert "chapters" in data and isinstance(data["chapters"], list), (
+            f"Missing chapters list in {book_yaml}"
+        )
         assert len(data["chapters"]) > 0, f"No chapters declared in {book_yaml}"
 
         book_dir = book_yaml.parent
