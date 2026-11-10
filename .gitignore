@@ -164,3 +164,7 @@ dist/
 *.fls
 *.fdb_latexmk
 
+# build artifacts
+dist/
+.DS_Store
+
