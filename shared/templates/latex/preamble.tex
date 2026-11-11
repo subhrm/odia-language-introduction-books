@@ -30,3 +30,23 @@
 % Start each chapter (top-level section) on a new page
 \AddToHook{cmd/section/before}{\clearpage}
 
+% Cover Page Background (Subtle Sambalpuri Ikat geometric vector pattern on Page 1)
+\usepackage{eso-pic}
+\usepackage{graphicx}
+
+\IfFileExists{shared/assets/patterns/cover-bg.pdf}{%
+  \AddToHook{begindocument/end}{%
+    \AddToShipoutPictureBG*{%
+      \AtPageLowerLeft{%
+        \includegraphics[width=\paperwidth,height=\paperheight]{shared/assets/patterns/cover-bg.pdf}%
+      }%
+    }%
+  }%
+}{}
+
+% Dedicated title/cover page: suppress headers/footers on page 1 and clearpage after title
+\AddToHook{cmd/maketitle/after}{%
+  \thispagestyle{empty}%
+  \clearpage
+}
+

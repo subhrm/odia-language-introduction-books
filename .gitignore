@@ -167,4 +167,5 @@ dist/
 # build artifacts
 dist/
 .DS_Store
+.superpowers/
 
