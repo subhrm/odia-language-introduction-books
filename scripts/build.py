@@ -184,11 +184,26 @@ def build_html(
     if template_file.exists():
         cmd.extend(["--template", str(template_file)])
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_ROOT)
     if result.returncode != 0:
         raise RuntimeError(f"Pandoc HTML build failed:\n{result.stderr}")
 
     return out_file
+
+
+def ensure_cover_pdf_assets() -> None:
+    """Ensure cover-bg.pdf exists in shared assets, generating from SVG if rsvg-convert is present."""
+    svg_file = SHARED_DIR / "assets" / "patterns" / "cover-bg.svg"
+    pdf_file = SHARED_DIR / "assets" / "patterns" / "cover-bg.pdf"
+
+    if svg_file.exists() and check_tool_installed("rsvg-convert"):
+        if not pdf_file.exists() or svg_file.stat().st_mtime > pdf_file.stat().st_mtime:
+            pdf_file.parent.mkdir(parents=True, exist_ok=True)
+            subprocess.run(
+                ["rsvg-convert", "-f", "pdf", "-o", str(pdf_file), str(svg_file)],
+                capture_output=True,
+                check=False,
+            )
 
 
 def build_pdf(
@@ -200,6 +215,9 @@ def build_pdf(
             "xelatex is required to compile PDF books with Odia script fonts.\n"
             "Please ensure MacTeX / TeX Live is installed and available in PATH."
         )
+
+    # Ensure vector PDF cover background is ready
+    ensure_cover_pdf_assets()
 
     slug = config["slug"]
     out_dir = DIST_DIR / slug / "pdf"
@@ -238,7 +256,7 @@ def build_pdf(
     if preamble_file.exists():
         cmd.extend(["--include-in-header", str(preamble_file)])
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_ROOT)
     if result.returncode != 0:
         raise RuntimeError(f"Pandoc PDF build failed:\n{result.stderr}")
 

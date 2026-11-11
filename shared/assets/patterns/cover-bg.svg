@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 210 297">
+  <defs>
+    <linearGradient id="cover-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf8f4" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+
+    <!-- Seamless repeating 80x80 Sambalpuri Pasapalli Ikat tile -->
+    <pattern id="sambalpuri-tile" width="28.2" height="28.2" patternUnits="userSpaceOnUse" viewBox="0 0 80 80">
+      <g opacity="0.065">
+        <!-- Subtle Pasapalli Grid Borders -->
+        <path stroke="#8b2500" stroke-width="0.75" stroke-dasharray="2 2" fill="none" d="M 0 0 L 80 0 M 0 40 L 80 40 M 0 80 L 80 80 M 0 0 L 0 80 M 40 0 L 40 80 M 80 0 L 80 80" />
+
+        <!-- Cell 1 (20, 20): Motif A (Stepped Diamond & 8-point Ikat Star) -->
+        <path fill="none" stroke="#8b2500" stroke-width="1.25" d="M 20 4 H 24 V 8 H 28 V 12 H 32 V 16 H 36 V 20 V 24 H 32 V 28 H 28 V 32 H 24 V 36 H 20 H 16 V 32 H 12 V 28 H 8 V 24 H 4 V 20 V 16 H 8 V 12 H 12 V 8 H 16 V 4 Z" />
+        <path fill="none" stroke="#8b2500" stroke-width="0.75" d="M 20 11 L 29 20 L 20 29 L 11 20 Z" />
+        <path fill="#8b2500" d="M 20 15 L 21.5 18.5 L 25 20 L 21.5 21.5 L 20 25 L 18.5 21.5 L 15 20 L 18.5 18.5 Z" />
+        <circle fill="#8b2500" cx="20" cy="20" r="1.2" />
+
+        <!-- Cell 2 (60, 20): Motif B (Stepped Diamond & Concentric Lozenge) -->
+        <path fill="none" stroke="#8b2500" stroke-width="1.25" d="M 60 4 H 64 V 8 H 68 V 12 H 72 V 16 H 76 V 20 V 24 H 72 V 28 H 68 V 32 H 64 V 36 H 60 H 56 V 32 H 52 V 28 H 48 V 24 H 44 V 20 V 16 H 48 V 12 H 52 V 8 H 56 V 4 Z" />
+        <path fill="none" stroke="#8b2500" stroke-width="0.75" d="M 60 10 H 63 V 13 H 66 V 17 H 70 V 20 V 23 H 66 V 27 H 63 V 30 H 60 H 57 V 27 H 54 V 23 H 50 V 20 V 17 H 54 V 13 H 57 V 10 Z" />
+        <path fill="none" stroke="#8b2500" stroke-width="0.75" d="M 60 15 L 65 20 L 60 25 L 55 20 Z" />
+        <rect fill="#8b2500" x="58.5" y="18.5" width="3" height="3" />
+
+        <!-- Cell 3 (20, 60): Motif B (Alternating Diagonal Checkerboard) -->
+        <path fill="none" stroke="#8b2500" stroke-width="1.25" d="M 20 44 H 24 V 48 H 28 V 52 H 32 V 56 H 36 V 60 V 64 H 32 V 68 H 28 V 72 H 24 V 76 H 20 H 16 V 72 H 12 V 68 H 8 V 64 H 4 V 60 V 56 H 8 V 52 H 12 V 48 H 16 V 44 Z" />
+        <path fill="none" stroke="#8b2500" stroke-width="0.75" d="M 20 50 H 23 V 53 H 26 V 57 H 30 V 60 V 63 H 26 V 67 H 23 V 70 H 20 H 17 V 67 H 14 V 63 H 10 V 60 V 57 H 14 V 53 H 17 V 50 Z" />
+        <path fill="none" stroke="#8b2500" stroke-width="0.75" d="M 20 55 L 25 60 L 20 65 L 15 60 Z" />
+        <rect fill="#8b2500" x="18.5" y="58.5" width="3" height="3" />
+
+        <!-- Cell 4 (60, 60): Motif A (Alternating Diagonal Checkerboard) -->
+        <path fill="none" stroke="#8b2500" stroke-width="1.25" d="M 60 44 H 64 V 48 H 68 V 52 H 72 V 56 H 76 V 60 V 64 H 72 V 68 H 68 V 72 H 64 V 76 H 60 H 56 V 72 H 52 V 68 H 48 V 64 H 44 V 60 V 56 H 48 V 52 H 52 V 48 H 56 V 44 Z" />
+        <path fill="none" stroke="#8b2500" stroke-width="0.75" d="M 60 51 L 69 60 L 60 69 L 51 60 Z" />
+        <path fill="#8b2500" d="M 60 55 L 61.5 58.5 L 65 60 L 61.5 61.5 L 60 65 L 58.5 61.5 L 55 60 L 58.5 58.5 Z" />
+        <circle fill="#8b2500" cx="60" cy="60" r="1.2" />
+
+        <!-- Alignment Accents -->
+        <circle fill="#8b2500" cx="0" cy="0" r="1.5" />
+        <circle fill="#8b2500" cx="80" cy="0" r="1.5" />
+        <circle fill="#8b2500" cx="0" cy="80" r="1.5" />
+        <circle fill="#8b2500" cx="80" cy="80" r="1.5" />
+        <circle fill="#8b2500" cx="40" cy="40" r="1.5" />
+        <circle fill="#8b2500" cx="40" cy="0" r="1.2" />
+        <circle fill="#8b2500" cx="40" cy="80" r="1.2" />
+        <circle fill="#8b2500" cx="0" cy="40" r="1.2" />
+        <circle fill="#8b2500" cx="80" cy="40" r="1.2" />
+      </g>
+    </pattern>
+  </defs>
+
+  <!-- Background Base Gradient -->
+  <rect width="100%" height="100%" fill="url(#cover-grad)" />
+
+  <!-- Tiled Sambalpuri Pasapalli Pattern -->
+  <rect width="100%" height="100%" fill="url(#sambalpuri-tile)" />
+
+  <!-- Left Spine Accent Border -->
+  <rect x="0" y="0" width="5" height="297" fill="#8b2500" />
+  <rect x="5" y="0" width="1.2" height="297" fill="#c05621" opacity="0.7" />
+  <line x1="6.5" y1="0" x2="6.5" y2="297" stroke="#8b2500" stroke-width="0.3" stroke-dasharray="1 1" opacity="0.4" />
+</svg>

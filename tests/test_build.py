@@ -149,6 +149,10 @@ def test_build_starter_book_pdf():
     assert pdf_out.exists(), "PDF output must exist"
     assert pdf_out.stat().st_size > 20000, "PDF output should be larger than 20KB"
 
+    # Verify that cover background XObject/graphic was embedded
+    content = pdf_out.read_bytes()
+    assert b"/XObject" in content, "Cover background graphic XObject must be embedded in PDF"
+
 
 def test_font_selection():
     """Verify font detection and fallback mechanism."""
