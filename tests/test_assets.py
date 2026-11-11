@@ -14,4 +14,6 @@ def test_sambalpuri_ikat_svg_validity():
     tree = ET.parse(svg_path)
     root = tree.getroot()
     assert root.tag.endswith("svg"), "Root element must be <svg>"
-    assert "viewBox" in root.attrib or ("width" in root.attrib and "height" in root.attrib)
+    assert root.attrib.get("viewBox") == "0 0 80 80", "SVG must have 0 0 80 80 viewBox"
+    assert root.attrib.get("width") == "80" and root.attrib.get("height") == "80"
+

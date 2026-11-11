@@ -87,6 +87,55 @@ def test_build_html_copies_shared_assets():
     assert pattern_dest.exists(), f"Expected shared pattern asset at {pattern_dest}"
 
 
+def test_build_html_asset_overlay_and_cleanup(tmp_path):
+    """Verify stale output asset cleanup and two-tier asset merging (shared + book-specific)."""
+    # Create test book structure
+    test_slug = "test-overlay-book"
+    book_dir = tmp_path / test_slug
+    chapters_dir = book_dir / "chapters"
+    assets_dir = book_dir / "assets"
+    chapters_dir.mkdir(parents=True)
+    assets_dir.mkdir(parents=True)
+
+    (chapters_dir / "01-test.md").write_text("# Test\nContent", encoding="utf-8")
+    (assets_dir / "custom.txt").write_text("book-specific", encoding="utf-8")
+
+    # Override a shared pattern with book-specific version
+    patterns_dir = assets_dir / "patterns"
+    patterns_dir.mkdir(parents=True)
+    (patterns_dir / "sambalpuri-ikat.svg").write_text("<svg>override</svg>", encoding="utf-8")
+
+    config = {
+        "slug": test_slug,
+        "title_or": "ଟେଷ୍ଟ",
+        "chapters": ["01-test.md"],
+    }
+    chapters = [chapters_dir / "01-test.md"]
+
+    # Pre-populate dist with an orphaned stale asset
+    out_dir = DIST_DIR / test_slug / "html"
+    dist_assets = out_dir / "assets"
+    dist_assets.mkdir(parents=True, exist_ok=True)
+    stale_file = dist_assets / "stale_orphan.txt"
+    stale_file.write_text("should be deleted on rebuild", encoding="utf-8")
+
+    # Run build
+    html_out = build_html(book_dir, config, chapters)
+
+    # 1. Stale orphan must have been wiped
+    assert not stale_file.exists(), "Stale assets from prior builds must be cleaned"
+
+    # 2. Book-specific asset is present
+    assert (dist_assets / "custom.txt").read_text(encoding="utf-8") == "book-specific"
+
+    # 3. Book-specific asset overrode the shared asset
+    assert (dist_assets / "patterns" / "sambalpuri-ikat.svg").read_text(encoding="utf-8") == "<svg>override</svg>"
+
+    # Clean up test output from dist
+    if out_dir.parent.exists():
+        shutil.rmtree(out_dir.parent)
+
+
 @pytest.mark.skipif(not check_tool_installed("xelatex"), reason="xelatex not available")
 def test_build_starter_book_pdf():
     """Test PDF compilation with XeLaTeX for 'odia-words-and-sentences'."""
