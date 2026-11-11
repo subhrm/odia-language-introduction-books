@@ -76,6 +76,17 @@ def test_build_starter_book_html(tmp_path):
     assert "book.css" in content
 
 
+def test_build_html_copies_shared_assets():
+    """Verify that shared assets like pattern SVGs are copied into dist/<slug>/html/assets/."""
+    book_yaml = BOOKS_DIR / "odia-words-and-sentences" / "book.yaml"
+    config = load_book_config(book_yaml)
+    chapters = get_chapter_paths(book_yaml.parent, config)
+    html_out = build_html(book_yaml.parent, config, chapters)
+
+    pattern_dest = html_out.parent / "assets" / "patterns" / "sambalpuri-ikat.svg"
+    assert pattern_dest.exists(), f"Expected shared pattern asset at {pattern_dest}"
+
+
 @pytest.mark.skipif(not check_tool_installed("xelatex"), reason="xelatex not available")
 def test_build_starter_book_pdf():
     """Test PDF compilation with XeLaTeX for 'odia-words-and-sentences'."""

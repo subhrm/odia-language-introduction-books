@@ -144,13 +144,18 @@ def build_html(
     if shared_css.exists():
         shutil.copy2(shared_css, dest_css)
 
-    # Copy assets if present
+    # Copy shared assets if present
+    shared_assets = SHARED_DIR / "assets"
+    dest_assets = out_dir / "assets"
+    if shared_assets.exists() and shared_assets.is_dir():
+        dest_assets.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(shared_assets, dest_assets, dirs_exist_ok=True)
+
+    # Copy book-specific assets if present (can supplement or override shared assets)
     book_assets = book_dir / "assets"
     if book_assets.exists() and book_assets.is_dir():
-        dest_assets = out_dir / "assets"
-        if dest_assets.exists():
-            shutil.rmtree(dest_assets)
-        shutil.copytree(book_assets, dest_assets)
+        dest_assets.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(book_assets, dest_assets, dirs_exist_ok=True)
 
     template_file = SHARED_DIR / "templates" / "html" / "template.html"
 
