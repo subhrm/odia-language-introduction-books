@@ -109,14 +109,10 @@ chapters:                                  # Exact ordered list of chapter files
   - "02-vocabulary.md"
 ```
 
-### C. Bilingual Content Conventions
+### C. Odia Content Conventions
 Because these books are instructional:
-- **Odia First, English Second**: Present the Odia word or sentence first, followed by phonetic transliteration and English translation.
-  - Example: `**ନମସ୍କାର** (*Namaskāra*) — Hello / Greetings`
-- **Vocabulary Tables**: Use GitHub Flavored Markdown tables with columns:
-  - `ଓଡ଼ିଆ ଶବ୍ଦ (Odia)`
-  - `ଉଚ୍ଚାରଣ (Transliteration)`
-  - `ଇଂରାଜୀ ଅର୍ଥ (English Meaning)`
+- **Odia only**: 
+- **Vocabulary Tables**: Use GitHub Flavored Markdown tables
 - **Grammar & Sentence Patterns**: Clearly identify sentence components when introducing Odia's **SOV** (Subject + Object + Verb) order.
 - **Accurate Odia Unicode**: Use standard Unicode characters for Odia (range `U+0B00` to `U+0B7F`). Ensure proper use of halant (`୍`) for conjuncts (`କ୍ଷ`, `ଜ୍ଞ`, `ସ୍ତ`, `ପ୍ର`, etc.) and nukta (`଼`) where applicable (`ଡ଼`, `ଢ଼`).
 
